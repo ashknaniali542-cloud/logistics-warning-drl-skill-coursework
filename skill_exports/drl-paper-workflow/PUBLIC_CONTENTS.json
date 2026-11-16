@@ -1,0 +1,31 @@
+{
+  "schema_version": 1,
+  "package": "drl-paper-workflow",
+  "scope": "General methods for deep reinforcement learning research and writing in supply-chain logistics emergency applications",
+  "content_policy": "Methods, public references, blank templates and palette settings only. No research data or derived results.",
+  "files": [
+    ".gitignore",
+    "LICENSE",
+    "README.md",
+    "SKILL.md",
+    "PUBLIC_CONTENTS.json",
+    "agents/openai.yaml",
+    "assets/evidence-ledger.csv",
+    "assets/experiment-matrix.csv",
+    "assets/figure-brief.md",
+    "assets/palette.json",
+    "assets/research-brief.md",
+    "assets/source-card.md",
+    "references/experiment-protocol.md",
+    "references/external-material-review.md",
+    "references/figure-design.md",
+    "references/foundations.md",
+    "references/knowledge-routing.md",
+    "references/literature-and-novelty.md",
+    "references/methodology-lessons.md",
+    "references/methods-and-metrics.md",
+    "references/paper-writing.md",
+    "references/publication-safety.md",
+    "references/research-design.md"
+  ]
+}

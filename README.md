@@ -1,0 +1,180 @@
+# drl-paper-workflow
+
+本工作区的公开技能位于 `skill_exports/drl-paper-workflow/`；下文的项目结构指该技能包。发布使用 [公开压缩包](skill_exports/drl-paper-workflow_public.zip)，研究工作区中的其他资料保留为私有内容。
+
+面向供应链物流应急领域的深度强化学习研究与论文写作 Skill。
+
+本项目将问题设计、方法选择、业务指标、实验论证、论文写作和科研绘图组织为一套可复用的指导流程，供支持 `SKILL.md` 的 AI 助手按任务调用，也可以作为研究指南直接阅读。
+
+## 1. 项目解决什么问题
+
+在延误预警、应急物资分配、运输资源调度和供应中断恢复研究中，常见困难是：先选算法再寻找问题；只比较一个精度指标；方法改进与业务需求脱节；实验结果难以形成清楚的论文论证。
+
+本项目帮助研究者建立以下联系：
+
+**实际问题 → 数据特征 → 决策结构 → 方法机制 → 公平实验 → 业务价值 → 论文表达。**
+
+核心是解释清楚“为什么需要深度强化学习、为什么选择这个方法、它改善了什么业务目标、通过哪些实验验证”。例如，预警研究需要同时考虑处置提前量、及时覆盖和核查负担；应急分配需要同时考虑需求满足、资源约束和响应时间。评价指标随实际问题确定。
+
+项目内容是方法指导和模板。模型训练、数据处理、实验执行、文档渲染与绘图由使用者的研究代码及 AI 助手可用工具完成；本包没有内置数据集、预训练模型、一键训练命令或已完成的业务实验结果。
+
+## 2. 主要功能
+
+| 功能 | 指导内容 | 对应材料 |
+|---|---|---|
+| 研究问题设计 | 盘点数据可见性、动作与后果，判断能否形成序贯决策问题 | [研究设计](skill_exports/drl-paper-workflow/references/research-design.md) |
+| DRL 方法选择 | 区分神经表示与学习算法，根据动作、交互条件和历史依赖选择候选方法 | [方法与指标](skill_exports/drl-paper-workflow/references/methods-and-metrics.md)、[基础知识](skill_exports/drl-paper-workflow/references/foundations.md) |
+| 业务多指标评价 | 定义主要目标、约束、成本和有效时间窗口，说明分母与阈值依据 | [方法与指标](skill_exports/drl-paper-workflow/references/methods-and-metrics.md) |
+| 文献与机制创新 | 从业务问题检索文献，建立“现象—机制—对照—证据”的论证 | [文献与创新](skill_exports/drl-paper-workflow/references/literature-and-novelty.md)、[方法论要点](skill_exports/drl-paper-workflow/references/methodology-lessons.md) |
+| 实验设计与诊断 | 安排简单规则、领域强基线、经典 DRL、机制消融及稳定性、鲁棒性和泛化检验 | [实验协议](skill_exports/drl-paper-workflow/references/experiment-protocol.md) |
+| 论文写作 | 组织引言、文献回顾、数据处理、方法、公式、伪代码、结果分析和结论 | [论文写作](skill_exports/drl-paper-workflow/references/paper-writing.md) |
+| 科研绘图 | 按研究问题选择图形、坐标与配色，展示真实网络结构，检查最终版面 | [绘图规范](skill_exports/drl-paper-workflow/references/figure-design.md)、[配色](skill_exports/drl-paper-workflow/assets/palette.json) |
+| 资料整理与复用 | 蒸馏外部资料，按需查找公开知识资源，维护研究与证据记录 | [资料审阅](skill_exports/drl-paper-workflow/references/external-material-review.md)、[资源路由](skill_exports/drl-paper-workflow/references/knowledge-routing.md) |
+
+DRL 判断要求同时存在神经网络近似、序贯决策过程和相应的价值或策略学习目标。监督预测器可以作为系统模块；本指南会分别说明预测模块与决策模块的作用。
+
+## 3. 安装方法
+
+### 直接阅读
+
+下载并解压项目，先阅读 [SKILL.md](skill_exports/drl-paper-workflow/SKILL.md)，再按当前任务打开 `references/` 下的说明。核心内容为 Markdown、JSON 和 CSV 文件，阅读与模板使用无需安装 Python 训练依赖。
+
+### 安装到 Codex
+
+1. 获取公开包并解压，找到直接包含 `SKILL.md` 的 `drl-paper-workflow` 文件夹。若下载的是仓库压缩包，以 `SKILL.md` 所在目录为准。
+2. 将整个文件夹安装到 Codex 技能目录。按本项目核对的 Codex 技能安装规则，设置了 `CODEX_HOME` 时使用其下的 `skills` 目录；默认目录为 `~/.codex/skills`。
+3. 重启 Codex，在新会话中使用 `$drl-paper-workflow` 调用。
+
+Windows PowerShell 示例：在解压后的技能根目录中执行，目标技能尚未安装时适用。
+
+```powershell
+$skillSource = (Get-Location).Path
+if (-not (Test-Path -LiteralPath (Join-Path $skillSource 'SKILL.md'))) {
+    throw '请先进入包含 SKILL.md 的技能目录。'
+}
+$skillHome = if ($env:CODEX_HOME) {
+    $env:CODEX_HOME
+} else {
+    Join-Path $env:USERPROFILE '.codex'
+}
+$skillDest = Join-Path $skillHome 'skills/drl-paper-workflow'
+if (Test-Path -LiteralPath $skillDest) {
+    throw '目标技能已存在，请先备份并确认更新方式。'
+}
+New-Item -ItemType Directory -Path (Split-Path -Parent $skillDest) -Force | Out-Null
+Copy-Item -LiteralPath $skillSource -Destination $skillDest -Recurse
+```
+
+安装后，`drl-paper-workflow` 文件夹内应直接包含 `SKILL.md`、`agents/`、`references/` 和 `assets/`，避免多嵌套一层同名目录。
+
+其他支持技能指令的客户端按其自身说明安装。AI 助手需要具备相应工具才能执行检索、代码运行、绘图或文档导出；这些工具和服务不随本包安装。MATLAB、Python、R 和其他科研技能均为按任务选择的可选资源。
+
+## 4. 使用方法
+
+### 发起一个具体任务
+
+在支持该技能的助手中输入：
+
+```text
+使用 $drl-paper-workflow。
+我研究供应链物流应急中的【具体场景】，当前处于【选题/实验/写稿/绘图】阶段。
+业务使用者需要在【决策时刻】根据【当时可见信息】决定【动作】。
+主要目标是【业务目标】，受到【时间/资源/成本约束】限制。
+请根据现有材料完成【本次交付】，并解释方法与评价指标的选择依据。
+```
+
+可以提供数据字典、代码、实验记录或草稿供当前研究使用。先说明材料范围与当前阶段；已有研究从当前阶段继续，无需每次重新选题或重训。
+
+### 按阶段使用模板
+
+将需要的模板复制到独立的私有研究工作区后填写。
+
+| 阶段 | 模板 | 记录什么 |
+|---|---|---|
+| 明确问题 | [研究问题卡](skill_exports/drl-paper-workflow/assets/research-brief.md) | 业务对象、数据、动作、目标、方法选择链 |
+| 阅读资料 | [资料蒸馏卡](skill_exports/drl-paper-workflow/assets/source-card.md) | 来源、机制、前提、可复用范围 |
+| 建立论证 | [证据表](skill_exports/drl-paper-workflow/assets/evidence-ledger.csv) | 论断、证据、口径、适用范围、正文位置 |
+| 规划实验 | [实验表](skill_exports/drl-paper-workflow/assets/experiment-matrix.csv) | 对照、改变的机制、数据划分、预算、指标 |
+| 设计图形 | [图形任务卡](skill_exports/drl-paper-workflow/assets/figure-brief.md) | 科学问题、数据字段、坐标、区间、布局 |
+
+两份 CSV 是只有字段表头的空白模板。技能按任务生成的研究方案、比较表、草稿或图形设计由助手交付；具体文件格式和保存位置在任务中指定。本包没有固定的结果输出目录或自动生成的结果文件。
+
+## 5. 输入输出示例
+
+以下为抽象任务及示例输出结构，用于说明使用方式，不包含业务数据或实验测量值。
+
+### 示例一：选择预警方法与评价指标
+
+**输入：**
+
+```text
+使用 $drl-paper-workflow，帮我设计配送异常预警研究。
+信息随运输事件逐步更新，动作是继续等待或首次报警。
+报警后由工作人员核查，核查资源有限，并且需要保留处置提前量。
+请说明 DRL 是否适用、方法候选、主要指标和必要对照。
+当前只做方案设计。
+```
+
+**示例输出：**
+
+| 项目 | 输出内容示意 |
+|---|---|
+| 研究问题 | 在信息逐步到达时选择首次报警时机，在核查预算约束下提高满足处置提前量的异常覆盖 |
+| 决策建模 | 状态为当前可见信息及剩余时间；动作为等待或报警；等待获得后续信息，首次报警终止该停止过程 |
+| 方法候选 | 以神经 Q 网络学习动作长期价值，考虑 DQN/DDQN；实现前核对状态可见性、终止条件和奖励目标 |
+| 主要评价 | 满足最低提前量的覆盖率；同时报告误报率、总核查量和单位及时命中的核查量 |
+| 对照设计 | 简单报警规则、同信息强预测器加触发规则、经典 DRL 对照、核心机制消融 |
+| 首项验证 | 检查观察时点是否覆盖业务响应窗口，以及各方法是否使用相同信息和评价分母 |
+
+输出说明“什么条件下适用、如何验证”，具体算法选择和效果结论由后续实验确定。
+
+### 示例二：把已有结果组织成论文和图形方案
+
+**输入：**
+
+```text
+使用 $drl-paper-workflow。
+请读取私有工作区中我指定的模型定义、评价指标说明和已完成实验表，
+整理研究方法与结果分析，并给出绘图任务卡。
+方法部分需要符号定义、与代码一致的公式和训练/执行伪代码。
+结果围绕响应窗口、服务覆盖和资源负担展开；新增内容保存到私有工作区。
+```
+
+**示例输出结构：**
+
+```text
+研究方法：问题定义 → 状态/动作/目标 → 真实网络结构 → 参数更新 → 执行流程
+结果分析：同口径主结果 → 业务取舍 → 机制消融 → 稳健性/鲁棒性/泛化
+图形任务卡：
+  比较图：同一预算或窗口下的覆盖与资源负担
+  敏感性图：不同窗口或预算下的性能变化
+  网络图：实际输入、网络层、在线/目标网络及训练和推理路径
+证据对应：每项结论关联提供的实验记录、指标定义和适用范围
+```
+
+助手根据实际提供的材料填写内容。需要绘制结果图或导出论文时，调用当前可用的绘图或文档工具，并检查生成的图和页面。
+
+## 6. 项目结构
+
+```text
+drl-paper-workflow/
+├── README.md                 # 项目介绍、安装和使用
+├── LICENSE                   # MIT 许可证
+├── SKILL.md                  # AI 助手调用入口与流程
+├── PUBLIC_CONTENTS.json      # 公开文件白名单
+├── .gitignore                # 私有研究材料与缓存排除规则
+├── agents/
+│   └── openai.yaml           # 技能显示名称与默认提示词
+├── references/              # 研究、方法、实验、写作和绘图指南
+└── assets/                  # 空白研究模板与配色参数
+```
+
+## 7. 数据与公开范围
+
+公开包仅包含通用方法、公开文献链接、空白模板和配色参数。原始数据、脱敏数据、统计汇总、预测与实验结果、模型权重、业务图像和填好的模板均存放在独立私有工作区。
+
+分发时以 [PUBLIC_CONTENTS.json](skill_exports/drl-paper-workflow/PUBLIC_CONTENTS.json) 中的文件白名单为准。新增文件需检查内容后再纳入；`.gitignore` 是辅助排除规则。详细要求见[发布边界](skill_exports/drl-paper-workflow/references/publication-safety.md)。
+
+## 8. 许可证
+
+本公开技能包采用 [MIT License](skill_exports/drl-paper-workflow/LICENSE)，版权署名为 `drl-paper-workflow contributors`。私有研究数据与材料不属于本包的分发内容；引用文献和外部资源遵循各自的许可。

@@ -1,0 +1,4 @@
+interface:
+  display_name: "供应链物流应急研究写作"
+  short_description: "供应链物流应急领域的深度强化学习问题设计、方法选择、多指标实验与论文绘图指南"
+  default_prompt: "使用 $drl-paper-workflow，围绕供应链物流应急问题，说明研究目标、深度强化学习方法选择、多指标评价、实验设计和论文结构；研究材料保存在私有工作区。"

@@ -1,0 +1,35 @@
+# This workspace contains private research materials.
+# Track only the reviewed public distribution listed below.
+*
+!/.gitignore
+!/README.md
+!/LICENSE
+!/skill_exports/
+!/skill_exports/drl-paper-workflow_public.zip
+!/skill_exports/drl-paper-workflow/
+!/skill_exports/drl-paper-workflow/.gitignore
+!/skill_exports/drl-paper-workflow/README.md
+!/skill_exports/drl-paper-workflow/LICENSE
+!/skill_exports/drl-paper-workflow/SKILL.md
+!/skill_exports/drl-paper-workflow/PUBLIC_CONTENTS.json
+!/skill_exports/drl-paper-workflow/agents/
+!/skill_exports/drl-paper-workflow/agents/openai.yaml
+!/skill_exports/drl-paper-workflow/assets/
+!/skill_exports/drl-paper-workflow/assets/evidence-ledger.csv
+!/skill_exports/drl-paper-workflow/assets/experiment-matrix.csv
+!/skill_exports/drl-paper-workflow/assets/figure-brief.md
+!/skill_exports/drl-paper-workflow/assets/palette.json
+!/skill_exports/drl-paper-workflow/assets/research-brief.md
+!/skill_exports/drl-paper-workflow/assets/source-card.md
+!/skill_exports/drl-paper-workflow/references/
+!/skill_exports/drl-paper-workflow/references/experiment-protocol.md
+!/skill_exports/drl-paper-workflow/references/external-material-review.md
+!/skill_exports/drl-paper-workflow/references/figure-design.md
+!/skill_exports/drl-paper-workflow/references/foundations.md
+!/skill_exports/drl-paper-workflow/references/knowledge-routing.md
+!/skill_exports/drl-paper-workflow/references/literature-and-novelty.md
+!/skill_exports/drl-paper-workflow/references/methodology-lessons.md
+!/skill_exports/drl-paper-workflow/references/methods-and-metrics.md
+!/skill_exports/drl-paper-workflow/references/paper-writing.md
+!/skill_exports/drl-paper-workflow/references/publication-safety.md
+!/skill_exports/drl-paper-workflow/references/research-design.md

@@ -1,0 +1,17 @@
+{
+  "name": "blue-cyan-rose",
+  "description": "蓝、浅青与粉红的可选科研绘图配色，可按当前任务调整",
+  "colors": ["#104E8B", "#376B9E", "#5F89B1", "#AFC3D8", "#C5E9E3", "#D7E1EB", "#F2DADA", "#E5B5B5", "#D89090", "#B22222"],
+  "roles": {
+    "primary": "#104E8B",
+    "primary_curve": "#376B9E",
+    "secondary": "#5F89B1",
+    "uncertainty_fill": "#AFC3D8",
+    "neutral_fill": "#D7E1EB",
+    "alternative_fill": "#C5E9E3",
+    "negative_fill": "#F2DADA",
+    "cost_or_negative": "#D89090",
+    "strong_alert": "#B22222"
+  },
+  "notes": ["每张图按语义取少量色彩，不要求用完色库", "浅色用于填充，正文和小字使用深色", "颜色同时配合线型或点型，最终尺寸检查可读性"]
+}
